@@ -1,6 +1,34 @@
-type ExampleEntity @entity {
+type DepositCollection @entity {
   id: ID!
-  count: BigInt!
-  user: Bytes! # address
-  pid: BigInt! # uint256
+  user: Bytes!
+  pid: BigInt!
+  amount: BigInt!
+}
+
+type EmergencyWithdrawCollection @entity {
+  id: ID!
+  user: Bytes!
+  pid: BigInt!
+  amount: BigInt!
+}
+
+type OwnershipTransferredCollection @entity {
+  id: ID!
+  previousOwner: Bytes!
+  newOwner: Bytes!
+}
+
+type SendLuaRewardCollection @entity {
+  id: ID!
+  user: Bytes!
+  pid: BigInt!
+  amount: BigInt!
+  lockAmount: BigInt!
+}
+
+type WithdrawCollection @entity {
+  id: ID!
+  user: Bytes!
+  pid: BigInt!
+  amount: BigInt!
 }

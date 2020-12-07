@@ -1,0 +1,8 @@
+# build folder
+/build/
+
+# generated folder
+/generated/
+
+# node_modules folder
+/node_modules/
