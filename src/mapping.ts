@@ -37,6 +37,7 @@ export function handleDeposit(event: Deposit): void {
   deposits.user = event.params.user
   deposits.pid = event.params.pid
   deposits.amount = event.params.amount
+  deposits.timestamp = event.block.timestamp
   deposits.save()
 
   const user = getUser(event.params.pid, event.params.user, event.block)
@@ -53,6 +54,7 @@ export function handleEmergencyWithdraw(event: EmergencyWithdraw): void {
   emergencyWithdraws.user = event.params.user
   emergencyWithdraws.pid = event.params.pid
   emergencyWithdraws.amount = event.params.amount
+  emergencyWithdraws.timestamp = event.block.timestamp
   emergencyWithdraws.save()
 
   const user = getUser(event.params.pid, event.params.user, event.block)
@@ -68,6 +70,7 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
   ownershipTransferreds.id = event.transaction.hash.toHex() + "-" + event.logIndex.toString();
   ownershipTransferreds.previousOwner = event.params.previousOwner
   ownershipTransferreds.newOwner = event.params.newOwner
+  ownershipTransferreds.timestamp = event.block.timestamp
   ownershipTransferreds.save()
 }
 
@@ -81,6 +84,7 @@ export function handleSendLuaReward(event: SendLuaReward): void {
   sendLuaRewards.pid = event.params.pid
   sendLuaRewards.amount = event.params.amount
   sendLuaRewards.lockAmount = event.params.lockAmount
+  sendLuaRewards.timestamp = event.block.timestamp
   sendLuaRewards.save()
 
   const user = getUser(event.params.pid, event.params.user, event.block)
@@ -97,6 +101,7 @@ export function handleWithdraw(event: Withdraw): void {
   withdraws.user = event.params.user
   withdraws.pid = event.params.pid
   withdraws.amount = event.params.amount
+  withdraws.timestamp = event.block.timestamp
   withdraws.save()
 
   const user = getUser(event.params.pid, event.params.user, event.block)
@@ -114,6 +119,7 @@ export function getUser(pid: BigInt, address: Address, block: ethereum.Block): U
     user = new User(id)
     user.address = address
     user.amount = BIG_INT_ZERO
+    user.timestamp = block.timestamp
     user.save()
   }
 

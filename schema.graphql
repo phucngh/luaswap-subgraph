@@ -3,6 +3,7 @@ type DepositCollection @entity {
   user: Bytes!
   pid: BigInt!
   amount: BigInt!
+  timestamp: BigInt!
 }
 
 type EmergencyWithdrawCollection @entity {
@@ -10,12 +11,14 @@ type EmergencyWithdrawCollection @entity {
   user: Bytes!
   pid: BigInt!
   amount: BigInt!
+  timestamp: BigInt!
 }
 
 type OwnershipTransferredCollection @entity {
   id: ID!
   previousOwner: Bytes!
   newOwner: Bytes!
+  timestamp: BigInt!
 }
 
 type SendLuaRewardCollection @entity {
@@ -24,6 +27,7 @@ type SendLuaRewardCollection @entity {
   pid: BigInt!
   amount: BigInt!
   lockAmount: BigInt!
+  timestamp: BigInt!
 }
 
 type WithdrawCollection @entity {
@@ -31,10 +35,12 @@ type WithdrawCollection @entity {
   user: Bytes!
   pid: BigInt!
   amount: BigInt!
+  timestamp: BigInt!
 }
 
 type User @entity {
   id: ID!
   address: Bytes!
   amount: BigInt!
+  timestamp: BigInt!
 }
