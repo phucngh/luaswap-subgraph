@@ -1,4 +1,16 @@
-import { BigInt, log } from "@graphprotocol/graph-ts"
+import {  Address, BigDecimal, BigInt, dataSource, ethereum, log } from "@graphprotocol/graph-ts"
+import {
+  BIG_DECIMAL_1E12,
+  BIG_DECIMAL_1E18,
+  BIG_DECIMAL_ZERO,
+  BIG_INT_ONE,
+  BIG_INT_ONE_DAY_SECONDS,
+  BIG_INT_ZERO,
+  LOCKUP_BLOCK_NUMBER,
+  MASTER_FARMER_ADDRESS,
+  MASTER_FARMER_START_BLOCK,
+  LUA_TOKEN_ADDRESS,
+} from './constants'
 import {
   Contract,
   Deposit,
@@ -12,7 +24,8 @@ import {
   EmergencyWithdrawCollection,
   OwnershipTransferredCollection,
   SendLuaRewardCollection,
-  WithdrawCollection
+  WithdrawCollection,
+  User
 } from "../generated/schema"
 
 export function handleDeposit(event: Deposit): void {
@@ -25,6 +38,10 @@ export function handleDeposit(event: Deposit): void {
   deposits.pid = event.params.pid
   deposits.amount = event.params.amount
   deposits.save()
+
+  const user = getUser(event.params.pid, event.params.user, event.block)
+  user.amount = user.amount.plus(deposits.amount)
+  user.save()
 }
 
 export function handleEmergencyWithdraw(event: EmergencyWithdraw): void {
@@ -37,6 +54,10 @@ export function handleEmergencyWithdraw(event: EmergencyWithdraw): void {
   emergencyWithdraws.pid = event.params.pid
   emergencyWithdraws.amount = event.params.amount
   emergencyWithdraws.save()
+
+  const user = getUser(event.params.pid, event.params.user, event.block)
+  user.amount = user.amount.minus(emergencyWithdraws.amount)
+  user.save()
 }
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {
@@ -61,6 +82,10 @@ export function handleSendLuaReward(event: SendLuaReward): void {
   sendLuaRewards.amount = event.params.amount
   sendLuaRewards.lockAmount = event.params.lockAmount
   sendLuaRewards.save()
+
+  const user = getUser(event.params.pid, event.params.user, event.block)
+  user.amount = user.amount.plus(sendLuaRewards.amount)
+  user.save()
 }
 
 export function handleWithdraw(event: Withdraw): void {
@@ -73,4 +98,24 @@ export function handleWithdraw(event: Withdraw): void {
   withdraws.pid = event.params.pid
   withdraws.amount = event.params.amount
   withdraws.save()
+
+  const user = getUser(event.params.pid, event.params.user, event.block)
+  user.amount = user.amount.minus(withdraws.amount)
+  user.save()
+}
+
+export function getUser(pid: BigInt, address: Address, block: ethereum.Block): User {
+  const uid = address.toHex()
+  const id = pid.toString().concat('-').concat(uid)
+
+  let user = User.load(id)
+
+  if (user === null) {
+    user = new User(id)
+    user.address = address
+    user.amount = BIG_INT_ZERO
+    user.save()
+  }
+
+  return user as User
 }

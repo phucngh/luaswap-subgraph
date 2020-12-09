@@ -19,6 +19,7 @@ dataSources:
         - OwnershipTransferred
         - SendLuaReward
         - Withdraw
+        - User
       abis:
         - name: Contract
           file: ./abis/Contract.json

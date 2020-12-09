@@ -32,3 +32,9 @@ type WithdrawCollection @entity {
   pid: BigInt!
   amount: BigInt!
 }
+
+type User @entity {
+  id: ID!
+  address: Bytes!
+  amount: BigInt!
+}
