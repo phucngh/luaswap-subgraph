@@ -10,8 +10,6 @@ The Graph exposes a GraphQL endpoint to query the events and entities within the
 
 We will add to this as development progresses.
 
-### Maker
-
 ```graphql
 {
   depositCollections(first: 5) {
