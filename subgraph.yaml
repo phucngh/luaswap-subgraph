@@ -30,7 +30,7 @@ dataSources:
           handler: handleEmergencyWithdraw
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
-        - event: SendLuaReward(indexed address,indexed uint256,uint256,uint256)
+        - event: SendLuaReward(indexed address,indexed uint256,uint256)
           handler: handleSendLuaReward
         - event: Withdraw(indexed address,indexed uint256,uint256)
           handler: handleWithdraw
