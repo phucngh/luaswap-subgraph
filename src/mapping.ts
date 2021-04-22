@@ -83,7 +83,7 @@ export function handleSendLuaReward(event: SendLuaReward): void {
   sendLuaRewards.user = event.params.user
   sendLuaRewards.pid = event.params.pid
   sendLuaRewards.amount = event.params.amount
-  // sendLuaRewards.lockAmount = event.params.lockAmount
+  sendLuaRewards.lockAmount = BIG_INT_ZERO
   sendLuaRewards.timestamp = event.block.timestamp
   sendLuaRewards.save()
 
